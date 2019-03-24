@@ -2,6 +2,9 @@ package com.eyepax.example.model;
 
 import java.util.List;
 
+import com.eyepax.example.exception.InvalidCommandException;
+import com.eyepax.example.exception.InvalidPositionException;
+
 public class Rover {
 
     private String name;
@@ -65,11 +68,11 @@ public class Rover {
                 this.setCurrentPosition(position);
                 this.setFacingDirection(Direction.getDirection(direction));
             } else {
-                throw new RuntimeException("Invalid position");
+                throw new InvalidPositionException("Invalid position");
             }
 
         } else {
-            throw new RuntimeException("Invalid command");
+            throw new InvalidCommandException("Invalid command");
         }
 
     }
@@ -83,7 +86,8 @@ public class Rover {
     }
 
     public boolean isRoverInitializationValid(String command) {
-        return command.trim().matches("\\d+\\s\\d+\\s[NESW]");
+        return command.trim()
+            .matches("\\d+\\s\\d+\\s[NESW]");
     }
 
     private boolean isValidPosition(Plateau plateau, Position position) {

@@ -1,5 +1,7 @@
 package com.eyepax.example.model;
 
+import com.eyepax.example.exception.InvalidCommandException;
+
 public class Plateau {
 
     private static Plateau instance;
@@ -33,17 +35,17 @@ public class Plateau {
             if (isPlateauInitializationValid(plateauCoordinates)) {
                 instance = parseAndInitialize(plateauCoordinates);
             } else {
-                throw new RuntimeException("Invalid command");
+                throw new InvalidCommandException("Invalid command");
             }
         }
         return instance;
     }
 
-    public static boolean isPlateauInitializationValid(String command) {
+    private static boolean isPlateauInitializationValid(String command) {
         return command.trim().matches("\\d+\\s\\d+");
     }
 
-    public static Plateau parseAndInitialize(String plateauCoordinates) {
+    private static Plateau parseAndInitialize(String plateauCoordinates) {
         String[] inputArray = plateauCoordinates.split(" ");
         int upperBoundX = Integer.parseInt(inputArray[0]);
         int upperBoundY = Integer.parseInt(inputArray[1]);
