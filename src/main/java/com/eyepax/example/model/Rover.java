@@ -50,7 +50,49 @@ public class Rover {
         this.previousPositions = previousPositions;
     }
 
-    
-    
-    
+    public void deployRover(Plateau plateau, String command) {
+
+        if (isRoverInitializationValid(command)) {
+
+            String[] inputArray = command.split(" ");
+            int coordX = Integer.parseInt(inputArray[0]);
+            int coordY = Integer.parseInt(inputArray[1]);
+            String direction = inputArray[2];
+
+            Position position = new Position(coordX, coordY);
+            if (isValidPosition(plateau, position)) {
+                this.setPlateau(plateau);
+                this.setCurrentPosition(position);
+                this.setFacingDirection(Direction.getDirection(direction));
+            } else {
+                throw new RuntimeException("Invalid position");
+            }
+
+        } else {
+            throw new RuntimeException("Invalid command");
+        }
+
+    }
+
+    public String getCoordinatesAndDirection() {
+        return String.format("%x %x %s", this.currentPosition.getCoordX(), this.currentPosition.getCoordY(), this.facingDirection.getDirection());
+    }
+
+    public void printCoordinatesAndDirection() {
+        System.out.println(getCoordinatesAndDirection());
+    }
+
+    public boolean isRoverInitializationValid(String command) {
+        return command.trim().matches("\\d+\\s\\d+\\s[NESW]");
+    }
+
+    private boolean isValidPosition(Plateau plateau, Position position) {
+        if (position.getCoordX() < 0 || position.getCoordX() > plateau.getUpperBoundX() - 1) {
+            return false;
+        } else if (position.getCoordY() < 0 || position.getCoordY() > plateau.getUpperBoundY() - 1) {
+            return false;
+        }
+        return true;
+    }
+
 }

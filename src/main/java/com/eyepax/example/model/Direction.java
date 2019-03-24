@@ -20,7 +20,16 @@ public enum Direction {
         return directionValue;
     }
 
-    public static Direction getDirection(int direction) {
+    public static Direction getDirection(String direction) {
+        for (Direction e : Direction.values()) {
+            if (direction.equals(e.direction)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public static Direction getDirectionByValue(int direction) {
         for (Direction e : Direction.values()) {
             if (e.directionValue == direction) {
                 return e;
