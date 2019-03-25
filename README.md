@@ -34,6 +34,8 @@ When designing the Mars Rover application, following assumptions were made.
 
 * When a Plateau is created, the bottom right co-ordinates are always (0, 0)
 * The square directly North from (x, y) is (x, y + 1)
+* Upper limits of the plateau is given will create a virtual grid. Eg. If (5, 5) coordinates given, the plateau will be a 6x6 grid.
+* Input for the application will be taken from a file.
 
 # Design
 
