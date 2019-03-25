@@ -41,4 +41,11 @@ When designing the Mars Rover application, following assumptions were made.
 
 # Development Environment
 
+The application was developed using,
+
+* Java SE1.8
+* JUnit (Test tool)
+* Apache Maven (Build Tool)
+* Spring Tool Suite (IDE)
+
 # 
