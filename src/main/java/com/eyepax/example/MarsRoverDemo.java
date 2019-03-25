@@ -27,7 +27,7 @@ public class MarsRoverDemo {
             for (int i = 1; i < commandList.size(); i += 2) {
 
                 try {
-
+                    
                     if (InputUtil.isRoverCommandLinesEmpty(commandList.get(i), commandList.get(i + 1))) {
                         throw new RoverCommandsUnavailable("Commands are invalid");
                     }

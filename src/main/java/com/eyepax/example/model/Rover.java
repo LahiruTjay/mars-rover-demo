@@ -5,7 +5,6 @@ import java.util.List;
 import com.eyepax.example.direction.Direction;
 import com.eyepax.example.direction.DirectionLookUp;
 import com.eyepax.example.direction.EastDirection;
-import com.eyepax.example.direction.MoveDirection;
 import com.eyepax.example.direction.NorthDirection;
 import com.eyepax.example.direction.SouthDirection;
 import com.eyepax.example.exception.InvalidCommandException;
@@ -17,7 +16,6 @@ public class Rover {
     private Plateau plateau;
     private Position currentPosition;
     private Direction facingDirection;
-    private MoveDirection facingDirection2;
     private List<Position> previousPositions;
 
     public String getName() {
@@ -42,14 +40,6 @@ public class Rover {
 
     public void setCurrentPosition(Position currentPosition) {
         this.currentPosition = currentPosition;
-    }
-
-    public MoveDirection getFacingDirection2() {
-        return facingDirection2;
-    }
-    
-    public void setFacingDirection2(MoveDirection facingDirection2) {
-        this.facingDirection2 = facingDirection2;
     }
 
     public void setFacingDirection(Direction facingDirection) {
@@ -81,14 +71,13 @@ public class Rover {
             if (isValidPosition(plateau, position)) {
                 this.setPlateau(plateau);
                 this.setCurrentPosition(position);
-                //this.setFacingDirection2(MoveDirection.getDirection(direction));
                 this.setFacingDirection(DirectionLookUp.getDirectionFromCommand(direction));
             } else {
-                throw new InvalidPositionException("Invalid position");
+                throw new InvalidPositionException("Invalid Rover deplpyment position");
             }
 
         } else {
-            throw new InvalidCommandException("Invalid command");
+            throw new InvalidCommandException("Invalid Rover deployment command");
         }
     }
 
@@ -96,10 +85,9 @@ public class Rover {
         if (isRoverCommandValid(commands)) {
             for (char command : commands.toCharArray()) {
                 movement(command);
-                //System.out.println(this.getCoordinatesAndDirection());
             }
         } else {
-            throw new InvalidCommandException("Invalid commands");
+            throw new InvalidCommandException("Invalid Rover movement command");
         }
     }
 
@@ -107,20 +95,17 @@ public class Rover {
         switch (command) {
         case 'M':
             Position position = this.scoutPosition();
-            //Position position1 = this.scoutPosition();
             if (isValidPosition(this.plateau, position)) {
                 moveForward(position);
             } else {
-                throw new InvalidPositionException("Invalid move");
+                throw new InvalidPositionException("Invalid Rover movement position");
             }
             break;
         case 'R':
             this.setFacingDirection(facingDirection.turnRight());
-            //this.setFacingDirection2(getFacingDirectionM(this.facingDirection2, TurningDirection.RIGHT));
             break;
         case 'L':
             this.setFacingDirection(facingDirection.turnLeft());
-            //this.setFacingDirection2(getFacingDirectionM(this.facingDirection2, TurningDirection.LEFT));
             break;
         default:
             break;
@@ -141,36 +126,9 @@ public class Rover {
         return position;
     }
 
-    /*private Position scoutPosition() {
-        Position position = new Position(this.currentPosition.getCoordX(), this.currentPosition.getCoordY());
-        switch (this.facingDirection2) {
-        case NORTH:
-            position.setCoordY(this.currentPosition.getCoordY() + 1);
-            break;
-        case EAST:
-            position.setCoordX(this.currentPosition.getCoordX() + 1);
-            break;
-        case SOUTH:
-            position.setCoordY(this.currentPosition.getCoordY() - 1);
-            break;
-        case WEST:
-            position.setCoordX(this.currentPosition.getCoordX() - 1);
-            break;
-        default:
-            break;
-        }
-        return position;
-    }*/
-
     private void moveForward(Position position) {
         this.setCurrentPosition(position);
     }
-
-    /*private MoveDirection getFacingDirectionM(MoveDirection currentDirection, TurningDirection newDirection) {
-        int directionsCount = MoveDirection.values().length;
-        int dir = (directionsCount + currentDirection.getDirectionValue() + newDirection.getOrientationValue()) % directionsCount;
-        return MoveDirection.getDirectionByValue(dir);
-    }*/
 
     public String getCoordinatesAndDirection() {
         return String.format("%x %x %s", currentPosition.getCoordX(), currentPosition.getCoordY(), facingDirection.getDirection(facingDirection));
