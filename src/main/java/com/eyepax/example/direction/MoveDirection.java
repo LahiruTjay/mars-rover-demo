@@ -1,13 +1,13 @@
-package com.eyepax.example.model;
+package com.eyepax.example.direction;
 
-public enum Direction {
+public enum MoveDirection {
 
     NORTH("N", 0), EAST("E", 1), SOUTH("S", 2), WEST("W", 3);
 
     private String direction;
     private int directionValue;
 
-    private Direction(String direction, int directionValue) {
+    private MoveDirection(String direction, int directionValue) {
         this.direction = direction;
         this.directionValue = directionValue;
     }
@@ -20,8 +20,8 @@ public enum Direction {
         return directionValue;
     }
 
-    public static Direction getDirection(String direction) {
-        for (Direction e : Direction.values()) {
+    public static MoveDirection getDirection(String direction) {
+        for (MoveDirection e : MoveDirection.values()) {
             if (direction.equals(e.direction)) {
                 return e;
             }
@@ -29,8 +29,8 @@ public enum Direction {
         return null;
     }
 
-    public static Direction getDirectionByValue(int direction) {
-        for (Direction e : Direction.values()) {
+    public static MoveDirection getDirectionByValue(int direction) {
+        for (MoveDirection e : MoveDirection.values()) {
             if (e.directionValue == direction) {
                 return e;
             }

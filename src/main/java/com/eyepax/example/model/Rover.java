@@ -2,6 +2,12 @@ package com.eyepax.example.model;
 
 import java.util.List;
 
+import com.eyepax.example.direction.Direction;
+import com.eyepax.example.direction.DirectionLookUp;
+import com.eyepax.example.direction.EastDirection;
+import com.eyepax.example.direction.MoveDirection;
+import com.eyepax.example.direction.NorthDirection;
+import com.eyepax.example.direction.SouthDirection;
 import com.eyepax.example.exception.InvalidCommandException;
 import com.eyepax.example.exception.InvalidPositionException;
 
@@ -11,6 +17,7 @@ public class Rover {
     private Plateau plateau;
     private Position currentPosition;
     private Direction facingDirection;
+    private MoveDirection facingDirection2;
     private List<Position> previousPositions;
 
     public String getName() {
@@ -37,20 +44,28 @@ public class Rover {
         this.currentPosition = currentPosition;
     }
 
-    public Direction getFacingDirection() {
-        return facingDirection;
+    public MoveDirection getFacingDirection2() {
+        return facingDirection2;
+    }
+    
+    public void setFacingDirection2(MoveDirection facingDirection2) {
+        this.facingDirection2 = facingDirection2;
     }
 
     public void setFacingDirection(Direction facingDirection) {
         this.facingDirection = facingDirection;
     }
 
+    public void setPreviousPositions(List<Position> previousPositions) {
+        this.previousPositions = previousPositions;
+    }
+
     public List<Position> getPreviousPositions() {
         return previousPositions;
     }
 
-    public void setPreviousPositions(List<Position> previousPositions) {
-        this.previousPositions = previousPositions;
+    public Direction getFacingDirection() {
+        return facingDirection;
     }
 
     public void deployRover(Plateau plateau, String command) {
@@ -66,7 +81,8 @@ public class Rover {
             if (isValidPosition(plateau, position)) {
                 this.setPlateau(plateau);
                 this.setCurrentPosition(position);
-                this.setFacingDirection(Direction.getDirection(direction));
+                //this.setFacingDirection2(MoveDirection.getDirection(direction));
+                this.setFacingDirection(DirectionLookUp.getDirectionFromCommand(direction));
             } else {
                 throw new InvalidPositionException("Invalid position");
             }
@@ -74,14 +90,13 @@ public class Rover {
         } else {
             throw new InvalidCommandException("Invalid command");
         }
-
     }
 
     public void processMovements(String commands) {
         if (isRoverCommandValid(commands)) {
             for (char command : commands.toCharArray()) {
                 movement(command);
-                System.out.println(this.getCoordinatesAndDirection());
+                //System.out.println(this.getCoordinatesAndDirection());
             }
         } else {
             throw new InvalidCommandException("Invalid commands");
@@ -92,17 +107,20 @@ public class Rover {
         switch (command) {
         case 'M':
             Position position = this.scoutPosition();
+            //Position position1 = this.scoutPosition();
             if (isValidPosition(this.plateau, position)) {
                 moveForward(position);
             } else {
-                System.out.println("Invalid move");
+                throw new InvalidPositionException("Invalid move");
             }
             break;
         case 'R':
-            this.setFacingDirection(getFacingDirection(this.facingDirection, TurningDirection.RIGHT));
+            this.setFacingDirection(facingDirection.turnRight());
+            //this.setFacingDirection2(getFacingDirectionM(this.facingDirection2, TurningDirection.RIGHT));
             break;
         case 'L':
-            this.setFacingDirection(getFacingDirection(this.facingDirection, TurningDirection.LEFT));
+            this.setFacingDirection(facingDirection.turnLeft());
+            //this.setFacingDirection2(getFacingDirectionM(this.facingDirection2, TurningDirection.LEFT));
             break;
         default:
             break;
@@ -111,7 +129,21 @@ public class Rover {
 
     private Position scoutPosition() {
         Position position = new Position(this.currentPosition.getCoordX(), this.currentPosition.getCoordY());
-        switch (this.facingDirection) {
+        if (facingDirection instanceof NorthDirection) {
+            position.setCoordY(this.currentPosition.getCoordY() + 1);
+        } else if (facingDirection instanceof EastDirection) {
+            position.setCoordX(this.currentPosition.getCoordX() + 1);
+        } else if (facingDirection instanceof SouthDirection) {
+            position.setCoordY(this.currentPosition.getCoordY() - 1);
+        } else {
+            position.setCoordX(this.currentPosition.getCoordX() - 1);
+        }
+        return position;
+    }
+
+    /*private Position scoutPosition() {
+        Position position = new Position(this.currentPosition.getCoordX(), this.currentPosition.getCoordY());
+        switch (this.facingDirection2) {
         case NORTH:
             position.setCoordY(this.currentPosition.getCoordY() + 1);
             break;
@@ -128,20 +160,20 @@ public class Rover {
             break;
         }
         return position;
-    }
+    }*/
 
     private void moveForward(Position position) {
         this.setCurrentPosition(position);
     }
 
-    private Direction getFacingDirection(Direction currentDirection, TurningDirection newDirection) {
-        int directionsCount = Direction.values().length;
+    /*private MoveDirection getFacingDirectionM(MoveDirection currentDirection, TurningDirection newDirection) {
+        int directionsCount = MoveDirection.values().length;
         int dir = (directionsCount + currentDirection.getDirectionValue() + newDirection.getOrientationValue()) % directionsCount;
-        return Direction.getDirectionByValue(dir);
-    }
+        return MoveDirection.getDirectionByValue(dir);
+    }*/
 
     public String getCoordinatesAndDirection() {
-        return String.format("%x %x %s", this.currentPosition.getCoordX(), this.currentPosition.getCoordY(), this.facingDirection.getDirection());
+        return String.format("%x %x %s", currentPosition.getCoordX(), currentPosition.getCoordY(), facingDirection.getDirection(facingDirection));
     }
 
     public void printCoordinatesAndDirection() {

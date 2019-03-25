@@ -4,7 +4,7 @@ import com.eyepax.example.exception.InvalidCommandException;
 
 public class Plateau {
 
-    private static Plateau instance;
+    //private static Plateau instance;
     private int upperBoundX;
     private int upperBoundY;
 
@@ -30,7 +30,7 @@ public class Plateau {
         this.upperBoundY = upperBoundY;
     }
 
-    public static Plateau intializePlateau(String plateauCoordinates) {
+    /*public static Plateau intializePlateau(String plateauCoordinates) {
         if (instance == null) {
             if (isPlateauInitializationValid(plateauCoordinates)) {
                 instance = parseAndInitialize(plateauCoordinates);
@@ -39,10 +39,19 @@ public class Plateau {
             }
         }
         return instance;
+    }*/
+
+    public static Plateau intializePlateau(String plateauCoordinates) {
+        if (isPlateauInitializationValid(plateauCoordinates)) {
+            return parseAndInitialize(plateauCoordinates);
+        } else {
+            throw new InvalidCommandException("Invalid command");
+        }
     }
 
     private static boolean isPlateauInitializationValid(String command) {
-        return command.trim().matches("\\d+\\s\\d+");
+        return command.trim()
+            .matches("\\d+\\s\\d+");
     }
 
     private static Plateau parseAndInitialize(String plateauCoordinates) {
