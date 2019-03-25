@@ -20,7 +20,10 @@ public class MarsRoverDemo {
         for (int i = 1; i < commandList.size(); i += 2) {
             Rover rover = new Rover();
             rover.deployRover(plateau, commandList.get(i));
-            rover.printCoordinatesAndDirection();
+            System.out.println("Initial Postion : " + rover.getCoordinatesAndDirection());
+            rover.processMovements(commandList.get(i + 1));
+            System.out.println("Final Postion : " + rover.getCoordinatesAndDirection());
+            //rover.printCoordinatesAndDirection();
         }
 
     }

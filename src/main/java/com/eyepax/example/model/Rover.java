@@ -77,6 +77,69 @@ public class Rover {
 
     }
 
+    public void processMovements(String commands) {
+        if (isRoverCommandValid(commands)) {
+            for (char command : commands.toCharArray()) {
+                movement(command);
+                System.out.println(this.getCoordinatesAndDirection());
+            }
+        } else {
+            throw new InvalidCommandException("Invalid commands");
+        }
+    }
+
+    private void movement(char command) {
+        switch (command) {
+        case 'M':
+            Position position = this.scoutPosition();
+            if (isValidPosition(this.plateau, position)) {
+                moveForward(position);
+            } else {
+                System.out.println("Invalid move");
+            }
+            break;
+        case 'R':
+            this.setFacingDirection(getFacingDirection(this.facingDirection, TurningDirection.RIGHT));
+            break;
+        case 'L':
+            this.setFacingDirection(getFacingDirection(this.facingDirection, TurningDirection.LEFT));
+            break;
+        default:
+            break;
+        }
+    }
+
+    private Position scoutPosition() {
+        Position position = new Position(this.currentPosition.getCoordX(), this.currentPosition.getCoordY());
+        switch (this.facingDirection) {
+        case NORTH:
+            position.setCoordY(this.currentPosition.getCoordY() + 1);
+            break;
+        case EAST:
+            position.setCoordX(this.currentPosition.getCoordX() + 1);
+            break;
+        case SOUTH:
+            position.setCoordY(this.currentPosition.getCoordY() - 1);
+            break;
+        case WEST:
+            position.setCoordX(this.currentPosition.getCoordX() - 1);
+            break;
+        default:
+            break;
+        }
+        return position;
+    }
+
+    private void moveForward(Position position) {
+        this.setCurrentPosition(position);
+    }
+
+    private Direction getFacingDirection(Direction currentDirection, TurningDirection newDirection) {
+        int directionsCount = Direction.values().length;
+        int dir = (directionsCount + currentDirection.getDirectionValue() + newDirection.getOrientationValue()) % directionsCount;
+        return Direction.getDirectionByValue(dir);
+    }
+
     public String getCoordinatesAndDirection() {
         return String.format("%x %x %s", this.currentPosition.getCoordX(), this.currentPosition.getCoordY(), this.facingDirection.getDirection());
     }
@@ -85,15 +148,18 @@ public class Rover {
         System.out.println(getCoordinatesAndDirection());
     }
 
-    public boolean isRoverInitializationValid(String command) {
-        return command.trim()
-            .matches("\\d+\\s\\d+\\s[NESW]");
+    private boolean isRoverInitializationValid(String command) {
+        return command.trim().matches("\\d+\\s\\d+\\s[NESW]");
+    }
+
+    private static boolean isRoverCommandValid(String commands) {
+        return commands.trim().matches("[MLR]+");
     }
 
     private boolean isValidPosition(Plateau plateau, Position position) {
-        if (position.getCoordX() < 0 || position.getCoordX() > plateau.getUpperBoundX() - 1) {
+        if (position.getCoordX() < 0 || position.getCoordX() > plateau.getUpperBoundX()) {
             return false;
-        } else if (position.getCoordY() < 0 || position.getCoordY() > plateau.getUpperBoundY() - 1) {
+        } else if (position.getCoordY() < 0 || position.getCoordY() > plateau.getUpperBoundY()) {
             return false;
         }
         return true;
