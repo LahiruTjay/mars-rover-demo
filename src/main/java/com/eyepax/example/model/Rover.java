@@ -1,12 +1,12 @@
 package com.eyepax.example.model;
 
-import com.eyepax.example.direction.Direction;
-import com.eyepax.example.direction.DirectionLookUp;
-import com.eyepax.example.direction.EastDirection;
-import com.eyepax.example.direction.NorthDirection;
-import com.eyepax.example.direction.SouthDirection;
 import com.eyepax.example.exception.InvalidCommandException;
 import com.eyepax.example.exception.InvalidPositionException;
+import com.eyepax.example.model.direction.Direction;
+import com.eyepax.example.model.direction.DirectionLookUp;
+import com.eyepax.example.model.direction.EastDirection;
+import com.eyepax.example.model.direction.NorthDirection;
+import com.eyepax.example.model.direction.SouthDirection;
 
 public class Rover {
 

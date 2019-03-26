@@ -6,13 +6,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.eyepax.example.direction.EastDirection;
-import com.eyepax.example.direction.NorthDirection;
-import com.eyepax.example.direction.SouthDirection;
 import com.eyepax.example.exception.InvalidCommandException;
 import com.eyepax.example.exception.InvalidPositionException;
 import com.eyepax.example.model.Plateau;
 import com.eyepax.example.model.Rover;
+import com.eyepax.example.model.direction.EastDirection;
+import com.eyepax.example.model.direction.NorthDirection;
+import com.eyepax.example.model.direction.SouthDirection;
 
 public class RoverInitilizationTest {
 

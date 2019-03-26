@@ -1,4 +1,4 @@
-package com.eyepax.example.direction;
+package com.eyepax.example.model.direction;
 
 public class NorthDirection implements Direction {
 
