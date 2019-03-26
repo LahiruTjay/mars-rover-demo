@@ -24,14 +24,6 @@ public class RoverMovementTest {
         plateau = Plateau.intializePlateau("5 5");
     }
     
-    @Test
-    public void whenInputDirectionSpecifyWest_thenInitilizeRoverOnWest() {
-        Rover rover = Rover.deployRover(plateau, "1 4 S");
-        assertEquals(1, rover.getCurrentPosition().getCoordX());
-        assertEquals(4, rover.getCurrentPosition().getCoordY());
-        assertTrue(rover.getFacingDirection() instanceof SouthDirection);
-    }
-    
     @Test(expected = InvalidCommandException.class)
     public void whenMoveCommandInvalid_invalidCharacters_thenException() {
         Rover rover = Rover.deployRover(plateau, "5 5 E");

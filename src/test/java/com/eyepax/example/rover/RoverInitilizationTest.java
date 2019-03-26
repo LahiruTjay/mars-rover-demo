@@ -62,4 +62,12 @@ public class RoverInitilizationTest {
         assertTrue(rover.getFacingDirection() instanceof EastDirection);
     }
     
+    @Test
+    public void whenInputDirectionSpecifyWest_thenInitilizeRoverOnWest() {
+        Rover rover = Rover.deployRover(plateau, "1 4 S");
+        assertEquals(1, rover.getCurrentPosition().getCoordX());
+        assertEquals(4, rover.getCurrentPosition().getCoordY());
+        assertTrue(rover.getFacingDirection() instanceof SouthDirection);
+    }
+    
 }
