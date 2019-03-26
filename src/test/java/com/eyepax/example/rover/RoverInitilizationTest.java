@@ -1,4 +1,4 @@
-package com.eyepax.example;
+package com.eyepax.example.rover;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +14,7 @@ import com.eyepax.example.exception.InvalidPositionException;
 import com.eyepax.example.model.Plateau;
 import com.eyepax.example.model.Rover;
 
-public class RoverTest {
+public class RoverInitilizationTest {
 
     protected Plateau plateau;
 
@@ -62,24 +62,4 @@ public class RoverTest {
         assertTrue(rover.getFacingDirection() instanceof EastDirection);
     }
     
-    @Test
-    public void whenInputDirectionSpecifyWest_thenInitilizeRoverOnWest() {
-        Rover rover = Rover.deployRover(plateau, "1 4 S");
-        assertEquals(1, rover.getCurrentPosition().getCoordX());
-        assertEquals(4, rover.getCurrentPosition().getCoordY());
-        assertTrue(rover.getFacingDirection() instanceof SouthDirection);
-    }
-    
-    @Test(expected = InvalidCommandException.class)
-    public void whenMoveCommandInvalid_InvalidCharacters_thenException() {
-        Rover rover = Rover.deployRover(plateau, "5 5 E");
-        rover.processMovements("LRMMMRMLRMLQ");
-    }
-    
-    @Test(expected = InvalidCommandException.class)
-    public void whenMoveCommandInvalid_UnneccessarySpaces_thenException() {
-        Rover rover = Rover.deployRover(plateau, "5 5 E");
-        rover.processMovements("LRMM MRML RML");
-    }
-
 }
