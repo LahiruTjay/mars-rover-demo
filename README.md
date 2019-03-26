@@ -36,6 +36,7 @@ When designing the Mars Rover application, following assumptions were made.
 * The square directly North from (x, y) is (x, y + 1)
 * Upper limits of the plateau is given will create a virtual grid. Eg. If (5, 5) coordinates given, the plateau will be a 6x6 grid.
 * Input for the application will be taken from a file.
+* Rover first scouts and validate the coordinates before movement.
 
 # Design
 
@@ -54,7 +55,15 @@ The application was designed in a way that only the necessary methods for initia
 
 **Plateau** class follows a singleton pattern because it is more sensible to have a only a single instance of plateau available for the application given the scenario. This class has only a single public method, which is to initilize the plateau.
 
-**Rover** class has public methods to initilizing, movement and aquiring the coordinates and the directions of the rover at a given time.
+**Rover** class has public methods to initilizing, movement and aquiring the coordinates and the directions of the rover at a given time. Rover is first initialized using the input given. If the command is invalid exception is throwm. Also if the coordinates of the deployment is invalid exception is thrown. When doing a movement, the input command is validated. 
+
+> The movement process is designed in a way that the rover first scouts the given coordinate and if the coordinate of the postion is valid then the positon is updated. This way is appropriate since validation after movement in a real scenario is dangerous.
+
+**Direction** interface has methods which return a subclass of implementing it based on the direction of turning. The claases implemetiong the **Direction** interface are "NorthDirection", "EastDirection", "SouthDirection" and "WestDirection". Each returns a direction from their left and right.
+
+The input for the application is taken using a file. Although getting the input through commandline is possible. Reading a file seemed appropriate for the scenario. The file is validated while throwing necessary exceptions.
+
+The main method read the file and process the list of commands line by line and then process each command.
 
 # Development Environment
 
