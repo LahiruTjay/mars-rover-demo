@@ -34,9 +34,33 @@ When designing the Mars Rover application, following assumptions were made.
 
 * When a Plateau is created, the bottom right co-ordinates are always (0, 0)
 * The square directly North from (x, y) is (x, y + 1)
+* Upper limits of the plateau is given will create a virtual grid. Eg. If (5, 5) coordinates given, the plateau will be a 6x6 grid.
+* Input for the application will be taken from a file.
 
 # Design
 
+The appilication has few main classes and interfaces.
+
+1. Plateau
+2. Rover
+3. Position
+4. Direction (Interface)  
+    * NorthDirection  
+    * EastDirection  
+    * SouthDirection  
+    * WestDirection  
+
+The application was designed in a way that only the necessary methods for initialization movement etc. are made public and all other methods are made private. By implementing the application this way ensures that only the desired methods can be invoked. Intialization of the **Plateau** class is performed via a static method using only the given string command. Also initilization of the **Rover** class can also be performed via a static method given the correct string command. 
+
+**Plateau** class follows a singleton pattern because it is more sensible to have a only a single instance of plateau available for the application given the scenario. This class has only a single public method, which is to initilize the plateau.
+
+**Rover** class has public methods to initilizing, movement and aquiring the coordinates and the directions of the rover at a given time.
+
 # Development Environment
 
-# 
+The application was developed using,
+
+* Java SE1.8
+* JUnit (Test tool)
+* Apache Maven (Build Tool)
+* Spring Tool Suite (IDE)
