@@ -63,7 +63,9 @@ The application was designed in a way that only the necessary methods for initia
 
 The input for the application is taken using a file. Although getting the input through commandline is possible. Reading a file seemed appropriate for the scenario. The file is validated while throwing necessary exceptions.
 
-The main method read the file and process the list of commands line by line and then process each command.
+The main method read the file and process the list of commands line by line and then process each command. 
+
+__If the plateau initilization throws and exception, the rest of the commands wont be executed. Exceptions are handled in a way that when a command fails for a Rover it skips that command for the rover and proceed on with the next Rover. For the movement of the Rovers, when the next movement position is invalid it skips the command. And the rover stays at the current postion and performs the rest of the available commands.__
 
 # Development Environment
 
