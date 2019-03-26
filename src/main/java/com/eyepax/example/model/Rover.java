@@ -1,7 +1,5 @@
 package com.eyepax.example.model;
 
-import java.util.List;
-
 import com.eyepax.example.direction.Direction;
 import com.eyepax.example.direction.DirectionLookUp;
 import com.eyepax.example.direction.EastDirection;
@@ -12,53 +10,30 @@ import com.eyepax.example.exception.InvalidPositionException;
 
 public class Rover {
 
-    private String name;
     private Plateau plateau;
     private Position currentPosition;
     private Direction facingDirection;
-    private List<Position> previousPositions;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    private Rover(Plateau plateau, Position currentPosition, Direction facingDirection) {
+        super();
+        this.plateau = plateau;
+        this.currentPosition = currentPosition;
+        this.facingDirection = facingDirection;
     }
 
     public Plateau getPlateau() {
         return plateau;
     }
 
-    public void setPlateau(Plateau plateau) {
-        this.plateau = plateau;
-    }
-
     public Position getCurrentPosition() {
         return currentPosition;
-    }
-
-    public void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
-    public void setFacingDirection(Direction facingDirection) {
-        this.facingDirection = facingDirection;
-    }
-
-    public void setPreviousPositions(List<Position> previousPositions) {
-        this.previousPositions = previousPositions;
-    }
-
-    public List<Position> getPreviousPositions() {
-        return previousPositions;
     }
 
     public Direction getFacingDirection() {
         return facingDirection;
     }
 
-    public void deployRover(Plateau plateau, String command) {
+    public static Rover deployRover(Plateau plateau, String command) {
 
         if (isRoverInitializationValid(command)) {
 
@@ -69,9 +44,9 @@ public class Rover {
 
             Position position = new Position(coordX, coordY);
             if (isValidPosition(plateau, position)) {
-                this.setPlateau(plateau);
-                this.setCurrentPosition(position);
-                this.setFacingDirection(DirectionLookUp.getDirectionFromCommand(direction));
+
+                return initializeRover(plateau, position, DirectionLookUp.getDirectionFromCommand(direction));
+
             } else {
                 throw new InvalidPositionException("Invalid Rover deplpyment position");
             }
@@ -79,6 +54,10 @@ public class Rover {
         } else {
             throw new InvalidCommandException("Invalid Rover deployment command");
         }
+    }
+
+    private static Rover initializeRover(Plateau plateau, Position position, Direction direction) {
+        return new Rover(plateau, position, direction);
     }
 
     public void processMovements(String commands) {
@@ -102,10 +81,10 @@ public class Rover {
             }
             break;
         case 'R':
-            this.setFacingDirection(facingDirection.turnRight());
+            this.facingDirection = facingDirection.turnRight();
             break;
         case 'L':
-            this.setFacingDirection(facingDirection.turnLeft());
+            this.facingDirection = facingDirection.turnLeft();
             break;
         default:
             break;
@@ -127,18 +106,18 @@ public class Rover {
     }
 
     private void moveForward(Position position) {
-        this.setCurrentPosition(position);
+        this.currentPosition = position;
     }
 
     public String getCoordinatesAndDirection() {
-        return String.format("%x %x %s", currentPosition.getCoordX(), currentPosition.getCoordY(), facingDirection.getDirection(facingDirection));
+        return String.format("%x %x %s", currentPosition.getCoordX(), currentPosition.getCoordY(), DirectionLookUp.getDirection(facingDirection));
     }
 
     public void printCoordinatesAndDirection() {
         System.out.println(getCoordinatesAndDirection());
     }
 
-    private boolean isRoverInitializationValid(String command) {
+    private static boolean isRoverInitializationValid(String command) {
         return command.trim().matches("\\d+\\s\\d+\\s[NESW]");
     }
 
@@ -146,7 +125,7 @@ public class Rover {
         return commands.trim().matches("[MLR]+");
     }
 
-    private boolean isValidPosition(Plateau plateau, Position position) {
+    private static boolean isValidPosition(Plateau plateau, Position position) {
         if (position.getCoordX() < 0 || position.getCoordX() > plateau.getUpperBoundX()) {
             return false;
         } else if (position.getCoordY() < 0 || position.getCoordY() > plateau.getUpperBoundY()) {

@@ -1,10 +1,10 @@
 package com.eyepax.example.exception;
 
-public class RoverCommandsUnavailable extends RuntimeException {
+public class InvalidFileFormatException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public RoverCommandsUnavailable(String errorMessage) {
+    public InvalidFileFormatException(String errorMessage) {
         super(errorMessage);
     }
 

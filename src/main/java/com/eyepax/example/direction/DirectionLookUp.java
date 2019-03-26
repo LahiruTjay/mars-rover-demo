@@ -17,4 +17,16 @@ public class DirectionLookUp {
         }
     }
 
+    public static <T extends Direction> String getDirection(T direction) {
+        if (direction instanceof NorthDirection) {
+            return "N";
+        } else if (direction instanceof EastDirection) {
+            return "E";
+        } else if (direction instanceof WestDirection) {
+            return "W";
+        } else {
+            return "S";
+        }
+    }
+
 }

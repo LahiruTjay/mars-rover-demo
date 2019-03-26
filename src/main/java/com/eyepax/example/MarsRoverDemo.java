@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.eyepax.example.exception.RoverCommandsUnavailable;
+import com.eyepax.example.exception.CommandsUnavailableException;
 import com.eyepax.example.exception.InvalidCommandException;
 import com.eyepax.example.exception.InvalidPositionException;
 import com.eyepax.example.model.Plateau;
@@ -29,11 +29,10 @@ public class MarsRoverDemo {
                 try {
                     
                     if (InputUtil.isRoverCommandLinesEmpty(commandList.get(i), commandList.get(i + 1))) {
-                        throw new RoverCommandsUnavailable("Commands are invalid");
+                        throw new CommandsUnavailableException("Commands are invalid");
                     }
 
-                    Rover rover = new Rover();
-                    rover.deployRover(plateau, commandList.get(i));
+                    Rover rover = Rover.deployRover(plateau, commandList.get(i));
                     rover.processMovements(commandList.get(i + 1));
                     rover.printCoordinatesAndDirection();
 
