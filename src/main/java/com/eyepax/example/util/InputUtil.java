@@ -11,6 +11,14 @@ import com.eyepax.example.exception.InvalidFileFormatException;
 
 public class InputUtil {
 
+    /**
+     * This method reads the file and return {@link List} of Strings pertaining to the lines.
+     * Performs validations of the file.
+     * 
+     * @param fileName
+     * @return
+     * @throws IOException, InvalidFileFormatException, NoSuchFileException
+     */
     public static List<String> readTextFile(String fileName) throws IOException {
         try {
             List<String> lines = Files.lines(Paths.get(fileName)).collect(Collectors.toList());
@@ -27,6 +35,13 @@ public class InputUtil {
         }
     }
 
+    /**
+     * This method checks whether two Strings are empty and return a boolean.
+     * 
+     * @param line1 - String line one
+     * @param line2 - String line two
+     * @return - boolean true if one or both lines are empty
+     */
     public static boolean isRoverCommandLinesEmpty(String line1, String line2) {
         return line1.trim().isEmpty() || line2.trim().isEmpty();
     }

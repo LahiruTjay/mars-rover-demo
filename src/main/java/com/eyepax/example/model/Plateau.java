@@ -23,6 +23,14 @@ public class Plateau {
         return upperBoundY;
     }
 
+    /**
+     * This method initialize the plateau using the coordinates given in the format of a string.
+     * This method validates the string and throws proper exceptions.
+     * Returns one instance of the plateau object as the class implements a singleton pattern.
+     * 
+     * @param plateauCoordinates - String containing coordinates for the plateau
+     * @return Instance of {@link Plateau} class
+     */
     public static Plateau intializePlateau(String plateauCoordinates) {
         if (instance == null) {
             if (isPlateauInitializationValid(plateauCoordinates)) {
@@ -41,10 +49,23 @@ public class Plateau {
         return instance;
     }
 
+    /**
+     * Validates the command given using regex matching.
+     * 
+     * @param command - String command
+     * @return boolean returning regex matching of the command
+     */
     private static boolean isPlateauInitializationValid(String command) {
         return command.trim().matches("\\d+\\s\\d+");
     }
 
+    /**
+     * Validates if the coordinates provided.
+     * 
+     * @param x - int upper X coordinate of the Plateau
+     * @param y - int upper Y coordinate of the Plateau
+     * @return boolean returning the coordinate validation
+     */
     private static boolean isPlateauCoordinatesValid(int x, int y) {
         return (!(x == 0 && y == 0) || x < 0 || y < 0);
     }
